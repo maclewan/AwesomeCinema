@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -7,14 +7,20 @@ import {
   Dimensions,
   Image,
   StatusBar,
+  Animated,
 } from 'react-native';
 import {getMovies} from '../api/tmdbAPI';
 import Genres from '../components/Genres';
 import Rating from '../components/Rating';
 
+import MaskedView from '@react-native-community/masked-view';
+import Svg, {Rect} from 'react-native-svg';
+import {LinearGradient} from 'expo-linear-gradient';
+
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;
 const ITEM_SIZE = width * 0.72;
+const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
 const Loading = () => (
   <View style={styles.loadingContainer}>
@@ -24,11 +30,12 @@ const Loading = () => (
 
 const MovieListScreen = () => {
   const [movies, setMovies] = useState([]);
+  const scrollX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const fetchData = async () => {
       const movies = await getMovies();
-      setMovies(movies);
+      setMovies([{key: 'left-spacer'}, ...movies, {key: 'right-spacer'}]);
     };
 
     if (movies.length === 0) {
@@ -43,22 +50,43 @@ const MovieListScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <FlatList
+      <Animated.FlatList
         showsHorizontalScrollIndicator={false}
         data={movies}
         keyExtractor={item => item.key}
         horizontal
         contentContainerStyle={{alignItems: 'center'}}
-        renderItem={({item}) => {
+        snapToInterval={ITEM_SIZE}
+        decelerationRate={0}
+        bounces={false}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {x: scrollX}}}],
+          {useNativeDriver: true},
+        )}
+        scrollEventThrottle={16}
+        renderItem={({item, index}) => {
+          if (!item.poster) {
+            return <View style={{width: SPACER_ITEM_SIZE}} />;
+          }
+          const inputRange = [
+            (index - 2) * ITEM_SIZE,
+            (index - 1) * ITEM_SIZE,
+            index * ITEM_SIZE,
+          ];
+          const translateY = scrollX.interpolate({
+            inputRange,
+            outputRange: [0, -50, 0],
+          });
           return (
             <View style={{width: ITEM_SIZE}}>
-              <View
+              <Animated.View
                 style={{
                   marginHorizontal: SPACING,
                   padding: SPACING * 2,
                   alignItems: 'center',
                   backgroundColor: 'white',
                   borderRadius: 34,
+                  transform: [{translateY}],
                 }}>
                 <Image source={{uri: item.poster}} style={styles.posterImage} />
                 <Text style={{fontSize: 24}} numberOfLines={1}>
@@ -69,7 +97,7 @@ const MovieListScreen = () => {
                 <Text style={{fontSize: 12}} numberOfLines={3}>
                   {item.description}
                 </Text>
-              </View>
+              </Animated.View>
             </View>
           );
         }}
