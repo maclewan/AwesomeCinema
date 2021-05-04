@@ -3,7 +3,6 @@ import {
   Text,
   View,
   StyleSheet,
-  FlatList,
   Dimensions,
   Image,
   StatusBar,
@@ -12,21 +11,13 @@ import {
 import {getMovies} from '../api/tmdbAPI';
 import Genres from '../components/Genres';
 import Rating from '../components/Rating';
-
-import MaskedView from '@react-native-community/masked-view';
-import Svg, {Rect} from 'react-native-svg';
-import {LinearGradient} from 'expo-linear-gradient';
+import Backdrop from '../components/Backdrop';
+import Loading from '../components/Loading';
 
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;
 const ITEM_SIZE = width * 0.72;
 const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
-
-const Loading = () => (
-  <View style={styles.loadingContainer}>
-    <Text style={styles.paragraph}>Loading...</Text>
-  </View>
-);
 
 const MovieListScreen = () => {
   const [movies, setMovies] = useState([]);
@@ -50,6 +41,7 @@ const MovieListScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar hidden />
+      <Backdrop movies={movies} scrollX={scrollX} />
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
         data={movies}
@@ -75,7 +67,7 @@ const MovieListScreen = () => {
           ];
           const translateY = scrollX.interpolate({
             inputRange,
-            outputRange: [0, -50, 0],
+            outputRange: [100, 50, 100],
           });
           return (
             <View style={{width: ITEM_SIZE}}>
