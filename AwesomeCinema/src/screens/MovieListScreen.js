@@ -7,12 +7,16 @@ import {
   Image,
   StatusBar,
   Animated,
+  KeyboardAvoidingView,
 } from 'react-native';
+import {Icon} from 'react-native-elements';
+
 import {getMovies} from '../api/tmdbAPI';
 import Genres from '../components/Genres';
 import Rating from '../components/Rating';
 import Backdrop from '../components/Backdrop';
 import Loading from '../components/Loading';
+import SearchBar from 'react-native-searchbar';
 
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;
@@ -21,12 +25,16 @@ const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
 const MovieListScreen = () => {
   const [movies, setMovies] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchMovies, setSearchMovies] = useState([]);
   const scrollX = useRef(new Animated.Value(0)).current;
+  const searchBar = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const movies = await getMovies();
       setMovies([{key: 'left-spacer'}, ...movies, {key: 'right-spacer'}]);
+      setSearchMovies([{key: 'left-spacer'}, ...movies, {key: 'right-spacer'}]);
     };
 
     if (movies.length === 0) {
@@ -38,13 +46,32 @@ const MovieListScreen = () => {
     return <Loading />;
   }
 
+  const handleSearchResults = results => {
+    console.log('====================================');
+    console.log(results);
+    console.log('====================================');
+    const searchList = movies
+      .slice(1, -1)
+      .filter(movie =>
+        movie.title.toLowerCase().includes(results.toLowerCase()),
+      );
+    console.log('====================================');
+    console.log(searchList);
+    console.log('====================================');
+    setSearchMovies([
+      {key: 'left-spacer'},
+      ...searchList,
+      {key: 'right-spacer'},
+    ]);
+  };
+
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <StatusBar hidden />
-      <Backdrop movies={movies} scrollX={scrollX} />
+      <Backdrop movies={searchMovies} scrollX={scrollX} />
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
-        data={movies}
+        data={searchMovies}
         keyExtractor={item => item.key}
         horizontal
         contentContainerStyle={{alignItems: 'center'}}
@@ -94,7 +121,29 @@ const MovieListScreen = () => {
           );
         }}
       />
-    </View>
+      <Icon
+        raised
+        name="search"
+        type="EvilIcons"
+        color="#F16365"
+        size={30}
+        containerStyle={{position: 'absolute', bottom: 0, alignSelf: 'center'}}
+        onPress={() => {
+          if (isSearching) {
+            searchBar.current.hide();
+            setIsSearching(false);
+          } else {
+            searchBar.current.show();
+            setIsSearching(true);
+          }
+        }}
+      />
+      <SearchBar
+        ref={searchBar}
+        data={movies}
+        handleSearch={handleSearchResults}
+      />
+    </KeyboardAvoidingView>
   );
 };
 
@@ -106,6 +155,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   paragraph: {
     margin: 24,
@@ -120,6 +170,10 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     margin: 0,
     marginBottom: 10,
+  },
+  iconSearch: {
+    color: '#F16365',
+    backgroundColor: '#F16365',
   },
 });
 
