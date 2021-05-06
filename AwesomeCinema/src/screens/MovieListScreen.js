@@ -8,6 +8,7 @@ import {
   StatusBar,
   Animated,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 
@@ -23,7 +24,7 @@ const SPACING = 10;
 const ITEM_SIZE = width * 0.72;
 const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
-const MovieListScreen = () => {
+const MovieListScreen = ({navigation}) => {
   const [movies, setMovies] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchMovies, setSearchMovies] = useState([]);
@@ -47,17 +48,11 @@ const MovieListScreen = () => {
   }
 
   const handleSearchResults = results => {
-    console.log('====================================');
-    console.log(results);
-    console.log('====================================');
     const searchList = movies
       .slice(1, -1)
       .filter(movie =>
         movie.title.toLowerCase().includes(results.toLowerCase()),
       );
-    console.log('====================================');
-    console.log(searchList);
-    console.log('====================================');
     setSearchMovies([
       {key: 'left-spacer'},
       ...searchList,
@@ -97,7 +92,9 @@ const MovieListScreen = () => {
             outputRange: [100, 50, 100],
           });
           return (
-            <View style={{width: ITEM_SIZE}}>
+            <TouchableOpacity
+              style={{width: ITEM_SIZE}}
+              onPress={() => navigation.navigate('MovieDetails', {item})}>
               <Animated.View
                 style={{
                   marginHorizontal: SPACING,
@@ -117,7 +114,7 @@ const MovieListScreen = () => {
                   {item.description}
                 </Text>
               </Animated.View>
-            </View>
+            </TouchableOpacity>
           );
         }}
       />
