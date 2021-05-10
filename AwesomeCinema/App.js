@@ -29,7 +29,7 @@ const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <Stack.Navigator initialRouteName="MovieList">
+    <Stack.Navigator initialRouteName="MovieList" innerRef={navigator => navigationRef(navigator)}>
       <Stack.Screen
         name="MovieList"
         component={MovieListScreen}
@@ -48,7 +48,7 @@ export default () => {
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView behavior={'height'} style={{flex: 1}}>
         <NavigationContainer>
-          <App ref={navigator => navigationRef(navigator)} />
+          <App />
         </NavigationContainer>
       </KeyboardAvoidingView>
     </SafeAreaView>

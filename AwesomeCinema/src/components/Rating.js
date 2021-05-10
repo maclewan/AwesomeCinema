@@ -2,21 +2,21 @@ import * as React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Icon} from 'react-native-elements';
 
-export default function Rating({rating}) {
+export default function Rating({rating, fontSize, iconSize}) {
   const filledStars = Math.floor(rating / 2);
   const maxStars = Array(5 - filledStars).fill('staro');
   const r = [...Array(filledStars).fill('star'), ...maxStars];
 
   return (
     <View style={styles.rating}>
-      <Text style={styles.ratingNumber}>{rating}</Text>
+      <Text style={[styles.ratingNumber, {fontSize}]}>{rating}</Text>
       {r.map((type, index) => {
         return (
           <Icon
             key={index}
             type="antdesign"
             name={type}
-            size={12}
+            size={iconSize}
             color="tomato"
           />
         );

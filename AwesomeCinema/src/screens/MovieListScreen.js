@@ -108,8 +108,8 @@ const MovieListScreen = ({navigation}) => {
                 <Text style={{fontSize: 24}} numberOfLines={1}>
                   {item.title}
                 </Text>
-                <Rating rating={item.rating} />
-                <Genres genres={item.genres} />
+                <Rating rating={item.rating} fontSize={14} iconSize={12} />
+                <Genres genres={item.genres} fontSize={9} />
                 <Text style={{fontSize: 12}} numberOfLines={3}>
                   {item.description}
                 </Text>
