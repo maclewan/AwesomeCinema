@@ -8,24 +8,48 @@
 
 import React from 'react';
 import {KeyboardAvoidingView, Platform} from 'react-native';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createStackNavigator} from '@react-navigation/stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {
+  NavigationContainer,
+  createAppContainer,
+  createSwitchNavigator,
+} from '@react-navigation/native';
 
 import {navigationRef} from './src/helpers/navigationRef';
 import MovieListScreen from './src/screens/MovieListScreen';
+import MovieDetailsScreen from './src/screens/MovieDetailsScreen';
 
-const switchNavigator = createSwitchNavigator({
-  MovieList: MovieListScreen,
-});
+const Stack = createStackNavigator();
 
-const App = createAppContainer(switchNavigator);
+// const switchNavigator = createStackNavigator({
+//   MovieList: MovieListScreen,
+//   MovieDetails: MovieDetailsScreen,
+// });
+
+const App = () => {
+  return (
+    <Stack.Navigator initialRouteName="MovieList" innerRef={navigator => navigationRef(navigator)}>
+      <Stack.Screen
+        name="MovieList"
+        component={MovieListScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="MovieDetails"
+        component={MovieDetailsScreen}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
 export default () => {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <KeyboardAvoidingView
-        behavior={'height'}
-        style={{flex: 1}}>
-        <App ref={navigator => navigationRef(navigator)} />
+      <KeyboardAvoidingView behavior={'height'} style={{flex: 1}}>
+        <NavigationContainer>
+          <App />
+        </NavigationContainer>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
