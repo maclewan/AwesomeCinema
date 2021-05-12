@@ -15,10 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-<<<<<<< HEAD
 
-=======
->>>>>>> Auth
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -30,12 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-<<<<<<< HEAD
 
-# Application definition
-
-INSTALLED_APPS = [
-=======
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,7 +38,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'django.contrib.sites',
 
->>>>>>> Auth
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,10 +77,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cinema_project.wsgi.application'
 
-<<<<<<< HEAD
 
-=======
->>>>>>> Auth
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -98,19 +87,12 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-<<<<<<< HEAD
-        'HOST': 'db',
-=======
         'HOST': 'localhost',
->>>>>>> Auth
         'PORT': 5432,
     }
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> Auth
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -129,10 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-<<<<<<< HEAD
 
-=======
->>>>>>> Auth
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -146,10 +125,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-<<<<<<< HEAD
 
-=======
->>>>>>> Auth
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -159,8 +135,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-<<<<<<< HEAD
-=======
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -170,4 +144,3 @@ REST_FRAMEWORK = {
 }
 
 SITE_ID=1
->>>>>>> Auth
