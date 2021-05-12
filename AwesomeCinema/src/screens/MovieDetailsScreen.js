@@ -18,6 +18,9 @@ import Rating from '../components/Rating';
 const MovieDetailsScreen = ({route}) => {
   const item = route.params?.item ?? null;
   const {width, height} = Dimensions.get('window');
+  console.log('====================================');
+  console.log(item.dates);
+  console.log('====================================');
   return (
     <View style={{flex: 1, width: width, height: height}}>
       <ScrollView
