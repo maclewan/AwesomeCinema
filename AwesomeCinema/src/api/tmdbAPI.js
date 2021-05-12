@@ -1,4 +1,6 @@
-import { API_KEY } from '../../config';
+import {API_KEY} from '../../config';
+import {generateMovieDatesList} from '../helpers/generateMovieDatesList';
+
 const genres = {
   12: 'Adventure',
   14: 'Fantasy',
@@ -22,13 +24,13 @@ const genres = {
 };
 
 const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`;
-const getImagePath = (path) =>
+const getImagePath = path =>
   `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
-const getBackdropPath = (path) =>
+const getBackdropPath = path =>
   `https://image.tmdb.org/t/p/w370_and_h556_multi_faces${path}`;
 
 export const getMovies = async () => {
-  const { results } = await fetch(API_URL).then((x) => x.json());
+  const {results} = await fetch(API_URL).then(x => x.json());
   const movies = results.map(
     ({
       id,
@@ -47,8 +49,9 @@ export const getMovies = async () => {
       rating: vote_average,
       description: overview,
       releaseDate: release_date,
-      genres: genre_ids.map((genre) => genres[genre]),
-    })
+      genres: genre_ids.map(genre => genres[genre]),
+      dates: generateMovieDatesList(),
+    }),
   );
 
   return movies;
