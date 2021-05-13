@@ -1,5 +1,14 @@
-
 # Setup
+## Simply way
+* Install requirements.txt
+* Hope for the best
+## Better way
+* Install Anaconda
+* Create env using [env](environment.yml) file. 
+  Little [help](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
+    here...
+
+# Run
 
 Run postgres app with `sudo docker-compose up`
 
@@ -11,29 +20,34 @@ Run django with `python manage.py runserver`
 
 * register `/auth/register/` 
 
-Request body:<br/>
-{<br/>
-    "username" : "Jan_nowak",<br/>
-    "password1" : "authauth",<br/>
-    "password2" : "authauth",<br/>
-    "email" : "nowak@jan.com"<br/>
+```json
+{
+    "username" : "Jan_nowak",
+    "password1" : "authauth",
+    "password2" : "authauth",
+    "email" : "nowak@jan.com"
 }
+```
 
-<br/>
+
+
 
 * login `/auth/login/`
 
-Request body:<br/>
-{<br/>
-    "username" : "Jan_nowak",<br/>
-    "password" : "authauth",<br/>
-    "email" : "nowak@jan.com"<br/>
+```json
+{
+    "username" : "Jan_nowak",
+    "password" : "authauth",
+    "email" : "nowak@jan.com"
 }
+```
 
-<br/>
 
 * example hello world `/cinema/hello`
 
 Token authentication example. 
-Provide header `"Authorization": "Token <token returned by login>"`
+Provide header 
+```json
+"Authorization": "Token <token returned by login>"
+```
 
