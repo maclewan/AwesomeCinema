@@ -15,7 +15,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import Genres from '../components/Genres';
 import Rating from '../components/Rating';
 
-const MovieDetailsScreen = ({route}) => {
+const MovieDetailsScreen = ({route, navigation}) => {
   const item = route.params?.item ?? null;
   const {width, height} = Dimensions.get('window');
   console.log('====================================');
@@ -62,7 +62,11 @@ const MovieDetailsScreen = ({route}) => {
           <Text style={styles.description}>{item.description}</Text>
         </View>
       </ScrollView>
-      <TouchableOpacity style={styles.button} onPress={() => {}}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate('MovieDisplayDates', {item});
+        }}>
         <Text style={styles.buttonText}>Zarezerwuj bilet</Text>
       </TouchableOpacity>
     </View>

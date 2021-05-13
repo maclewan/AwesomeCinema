@@ -15,6 +15,12 @@ const addHours = (date, h) => {
   return newDate;
 };
 
+const addMinutes = (date, minutes) => {
+  let newDate = new Date(date);
+  newDate.setMinutes(newDate.getMinutes() + minutes);
+  return newDate;
+};
+
 export const generateMovieDatesList = () => {
   const datesAmount = Math.ceil(Math.random() * 10);
   const days = [];
@@ -32,13 +38,23 @@ export const generateMovieDatesList = () => {
     days.push(day);
   }
 
-  days.sort((a, b) => (a > b ? 1 : -1));
-
   for (let i = 0; i < days.length; i++) {
     // let date = today.addDays(days[i]);
-    let date = addDays(today, days[i]);
-    date = addHours(date, Math.ceil(Math.random() + 23));
-    dates.push(date.toString());
+    const hoursAmount = Math.ceil(Math.random() * 10);
+
+    const date = addDays(today, days[i]);
+    for (let i = 0; i < hoursAmount; i++) {
+      let hourDate = addHours(date, Math.ceil(Math.random() * 23));
+      hourDate = addMinutes(hourDate, Math.ceil(Math.random() * 60));
+      dates.push(hourDate);
+    }
   }
+
+  dates.sort((a, b) => (a > b ? 1 : -1));
+
+  for (let i = 0; i < dates.length; i++) {
+    dates[i] = dates[i].toString();
+  }
+
   return dates;
 };
