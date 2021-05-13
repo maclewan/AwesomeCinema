@@ -52,3 +52,16 @@ Provide header
 "Authorization": "Token <token returned by login>"
 ```
 
+## Movies and genres
+
+* all movies `/cinema/movies/`
+
+* movies by name `/cinema/movies/?name={movie_name}`
+
+* Movie by id `/cinema/movie/{id}`
+
+* all genres `/cinema/genres/`
+
+* movies by genre `/cinema/genres/{genre_name}`
+
+  

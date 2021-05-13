@@ -22,7 +22,7 @@ class MovieSerializer(serializers.Serializer):
 
 class GenreSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    genre = serializers.CharField()
+    name = serializers.CharField()
 
     def update(self, instance, validated_data):
         pass
