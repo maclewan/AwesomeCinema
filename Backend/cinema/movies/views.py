@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # Create your views here.
 from rest_framework import status
 
@@ -9,10 +7,10 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from cinema.models import Movie, Genre, MovieGenre
-from cinema.serializers import MovieSerializer, GenreSerializer
+from cinema.movies.models import Movie, Genre, MovieGenre
+from cinema.movies.serializers import GenreSerializer
 
-from .utils import serialize_movies_with_genres
+from cinema.utils import serialize_movies_with_genres
 
 
 class HelloView(APIView):

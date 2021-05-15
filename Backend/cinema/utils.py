@@ -1,5 +1,5 @@
-from cinema.models import MovieGenre
-from cinema.serializers import MovieSerializer
+from cinema.movies.models import MovieGenre
+from cinema.movies.serializers import MovieSerializer
 
 
 def serialize_movies_with_genres(movies):
