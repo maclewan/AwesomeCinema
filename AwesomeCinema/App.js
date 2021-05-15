@@ -20,6 +20,7 @@ import {navigationRef} from './src/helpers/navigationRef';
 import MovieListScreen from './src/screens/MovieListScreen';
 import MovieDetailsScreen from './src/screens/MovieDetailsScreen';
 import MovieDisplayDatesScreen from './src/screens/MovieDisplayDatesScreen';
+import AuthScreen from './src/screens/AuthScreen';
 
 const Stack = createStackNavigator();
 
@@ -31,8 +32,13 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <Stack.Navigator
-      initialRouteName="MovieList"
+      initialRouteName="AuthScreen"
       innerRef={navigator => navigationRef(navigator)}>
+      <Stack.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="MovieList"
         component={MovieListScreen}
