@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Genre, MovieGenre, Movie
-from .serializers import MovieSerializer
+from cinema.movies.models import Genre, MovieGenre, Movie
+from cinema.movies.serializers import MovieSerializer
 import json
 
 
