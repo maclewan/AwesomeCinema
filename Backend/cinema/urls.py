@@ -21,7 +21,6 @@ urlpatterns = [
     path('genres/', movies_views.GenresView.as_view(), name='all_genres'),
     path('genres/<str:genre_name>', movies_views.GenreMovieView.as_view(), name='movie_by_genre'),
 
-'''
     ## test
-    path('test/', tickets_views.TestView.as_view(), name='test'),'''
+    # path('test/', tickets_views.TestView.as_view(), name='test'),
 ]
