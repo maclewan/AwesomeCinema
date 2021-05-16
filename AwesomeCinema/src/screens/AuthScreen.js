@@ -44,7 +44,7 @@ const AuthScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/photo/cinema_auth2.png')}
+        source={require('../../assets/photo/cinema_auth.png')}
         style={styles.image}
       />
       {authType === 'sign-in' ? signInForm : signUpForm}

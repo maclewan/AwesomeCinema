@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {KeyboardAvoidingView, Platform} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -15,6 +15,8 @@ import {
   createAppContainer,
   createSwitchNavigator,
 } from '@react-navigation/native';
+
+import SplashScreen from  "react-native-splash-screen";
 
 import {navigationRef} from './src/helpers/navigationRef';
 import MovieListScreen from './src/screens/MovieListScreen';
@@ -30,6 +32,11 @@ const Stack = createStackNavigator();
 // });
 
 const App = () => {
+  //Hide Splash screen on app load.
+  React.useEffect(() => {
+    SplashScreen.hide();
+  });
+
   return (
     <Stack.Navigator
       initialRouteName="AuthScreen"
