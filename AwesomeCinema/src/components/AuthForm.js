@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import {Input, Icon} from 'react-native-elements';
 
 const AuthForm = ({
@@ -14,7 +14,10 @@ const AuthForm = ({
   const [password2, setPassword2] = useState('');
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    style={styles.container}
+  >
       <Text style={styles.headerText}>{headerText}</Text>
       <Input
         autoCapitalize="none"
@@ -65,7 +68,7 @@ const AuthForm = ({
       <TouchableOpacity
         style={styles.buttonSubmit}
         onPress={() => onButtonPress(email, password1, password2)}>
-        <Text style={styles.buttonText}>{buttonText}</Text>
+        <Text style={styles.buttonSubmitText}>{buttonText}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.buttonChangeAuthForm}
@@ -74,23 +77,36 @@ const AuthForm = ({
           {type === 'sign-up' ? 'Mam już konto!' : 'Nie posiadam konta :('}
         </Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    width: '80%',
   },
-  headerText: {fontSize: 25},
+  headerText: {fontSize: 25, color: '#000', marginBottom: 10,},
   input: {
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 30,
+    paddingLeft: 10,
   },
-  buttonSubmit: {},
-  buttonSubmitText: {},
+  buttonSubmit: {
+    borderWidth: 0,
+    borderRadius: 5,
+    backgroundColor: '#ff2f00',
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    marginBottom: 10,
+  },
+  buttonSubmitText: {
+    color: '#fff',
+    fontSize: 25,
+  },
+  buttonChangeAuthFormText: {
+    fontSize: 16,
+    color: '#444',
+  }
 });
 
 export default AuthForm;

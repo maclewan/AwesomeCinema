@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Image} from 'react-native';
 
 import AuthForm from '../components/AuthForm';
 
@@ -22,7 +22,7 @@ const AuthScreen = ({navigation}) => {
 
   const signInForm = (
     <AuthForm
-      headerText={'Sign in'}
+      headerText={'Hi Cinema Lover!'}
       type={authType}
       buttonText={'Sign in'}
       changeAuthForm={() => setAuthType('sign-up')}
@@ -31,7 +31,7 @@ const AuthScreen = ({navigation}) => {
   );
   const signUpForm = (
     <AuthForm
-      headerText={'Sign up'}
+      headerText={'Join us!'}
       type={authType}
       buttonText={'Sign up'}
       changeAuthForm={() => setAuthType('sign-in')}
@@ -43,6 +43,10 @@ const AuthScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require('../../assets/photo/cinema_auth2.png')}
+        style={styles.image}
+      />
       {authType === 'sign-in' ? signInForm : signUpForm}
     </View>
   );
@@ -51,8 +55,14 @@ const AuthScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    height: '50%',
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
 });
 
