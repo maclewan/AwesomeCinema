@@ -78,7 +78,8 @@ const MovieDisplayDatesScreen = ({route, navigation}) => {
         <FlatList
           data={createGroupedDatesList(item.dates)}
           keyExtractor={item => item.day}
-          renderItem={({item, index}) => <MovieDate item={item} />}
+          renderItem={({item}) => <MovieDate item={item} />}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </View>
@@ -99,23 +100,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#333',
     marginBottom: 10,
-  },
-  description: {
-    marginTop: 10,
-    fontSize: 15,
-  },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    position: 'absolute',
-    bottom: 20,
-    alignSelf: 'center',
-    backgroundColor: '#F16365',
-    borderRadius: 5,
-  },
-  buttonText: {
-    fontSize: 20,
-    color: '#fff',
   },
 });
 
