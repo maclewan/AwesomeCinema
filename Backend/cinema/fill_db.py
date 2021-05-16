@@ -101,20 +101,20 @@ def fill_screenings():
     halls = Hall.objects.all()
     try:
         day = datetime.now()
-        day = datetime(year=day.year, month=day.month, day=day.day, hour=START_HOUR, minute=0, second=0,)
+        day = datetime(year=day.year, month=day.month, day=day.day, hour=START_HOUR, minute=0, second=0, )
         timezone = pytz.timezone("Europe/Warsaw")
         day = timezone.localize(day)
 
         for h in halls:
-            for d in range(1, DAYS+1):
-                new_day = day + timedelta(days=d) + timedelta(minutes=random.randint(0, 8)*15)
+            for d in range(1, DAYS + 1):
+                new_day = day + timedelta(days=d) + timedelta(minutes=random.randint(0, 8) * 15)
                 while True:
                     m = random.choice(movies)
                     # Create screening
                     s = Screening(hall=h, movie=m, date=new_day)
-                    #print(s)
+                    # print(s)
                     s.save()
-                    new_day = new_day + timedelta(hours=3) + timedelta(minutes=random.randint(1, 3)*15)
+                    new_day = new_day + timedelta(hours=3) + timedelta(minutes=random.randint(1, 3) * 15)
                     if new_day.hour >= END_HOUR or new_day.hour < START_HOUR:
                         break
         return True
@@ -129,14 +129,15 @@ def fill_tickets():
     try:
         for s in screenings:
             for i in range(s.hall.rows * s.hall.columns):
-                t = Ticket(seat_number=i+1, screening=s, owner=None)
-                #print(t)
+                t = Ticket(seat_number=i + 1, screening=s, owner=None)
+                # print(t)
                 t.save()
 
         return True
     except Exception as e:
         print(e)
         return False
+
 
 class GenerateDB(APIView):
     authentication_classes = []

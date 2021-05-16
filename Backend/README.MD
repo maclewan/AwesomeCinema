@@ -8,7 +8,7 @@
   Little [help](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
     here...
 ## Fill db
-* Send get request to `localhost:8000/cinema/fill/` for one time
+* Send `get` request to `/cinema/fill/` endpoint one time
 # Run
 
 Run postgres app with `sudo docker-compose up`
