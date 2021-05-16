@@ -17,7 +17,7 @@ urlpatterns = [
     ##########################################################################
 
     path('movies/', movies_views.AllMoviesView.as_view(), name='multiple_movies'),
-    path('movie/<int:movie_id>', movies_views.SingleMovieView.as_view(), name='single_movie'),
+    path('movies/<int:movie_id>', movies_views.SingleMovieView.as_view(), name='single_movie'),
     path('genres/', movies_views.GenresView.as_view(), name='all_genres'),
     path('genres/<str:genre_name>', movies_views.GenreMovieView.as_view(), name='movie_by_genre'),
 

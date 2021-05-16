@@ -58,7 +58,7 @@ Provide header
 
 * movies by name `/cinema/movies/?name={movie_name}`
 
-* Movie by id `/cinema/movie/{id}`
+* Movie by id `/cinema/movies/{id}`
 
 * all genres `/cinema/genres/`
 
