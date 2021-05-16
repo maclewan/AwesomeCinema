@@ -17,3 +17,19 @@ class TestView(APIView):
         content = serial
         return Response(content)
 '''
+
+'''class AllMoviesView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request):
+        """
+        Returns (filtered) movies
+        """
+        movie_name = request.query_params.get(key='name', default=None)
+        movies = Movie.objects.filter(title__icontains=movie_name) if movie_name else Movie.objects.all()
+        serialized = serialize_movies_with_genres(movies)
+
+        payload = {
+            'movies': serialized
+        }
+        return Response(payload, status=status.HTTP_200_OK)'''

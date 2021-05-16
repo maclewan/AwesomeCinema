@@ -15,7 +15,6 @@ class Hall(models.Model):
 
 
 class Screening(models.Model):
-    id = models.IntegerField(primary_key=True)
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     date = models.DateTimeField()
@@ -25,7 +24,6 @@ class Screening(models.Model):
 
 
 class Ticket(models.Model):
-    id = models.IntegerField(primary_key=True)
     seat_number = models.IntegerField()
     screening = models.ForeignKey(Screening, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, default=None)

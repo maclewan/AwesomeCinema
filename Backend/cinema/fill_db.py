@@ -1,3 +1,8 @@
+import random
+from datetime import datetime, timedelta, time
+from functools import reduce
+
+import pytz
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -5,8 +10,15 @@ from cinema.movies.models import Genre, MovieGenre, Movie
 from cinema.movies.serializers import MovieSerializer
 import json
 
+from cinema.tickets.models import Hall, Screening, Ticket
 
-def fill():
+HALLS = 6  # (max 50)
+DAYS = 10
+START_HOUR = 13
+END_HOUR = 23
+
+
+def fill_movies():
     genres = {
         12: 'Adventure',
         14: 'Fantasy',
@@ -36,7 +48,6 @@ def fill():
 
     try:
         for m in movies:
-
             m['id'] = m['key']
 
             serializer = MovieSerializer(data=m)
@@ -63,11 +74,81 @@ def fill():
         return False
 
 
+def fill_halls():
+    states = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut",
+              "District of Columbia", "Delaware", "Florida", "Georgia", "Guam", "Hawaii", "Iowa", "Idaho",
+              "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine",
+              "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana", "North Carolina", "North Dakota",
+              "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York", "Ohio", "Oklahoma",
+              "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
+              "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont", "Washington", "Wisconsin", "West Virginia",
+              "Wyoming"]
+    try:
+        for i in range(HALLS):
+            rname = states.pop(random.randint(0, len(states) - 1))
+            rrows = random.randint(6, 11)
+            rcol = random.randint(int(rrows * 1.2), int(rrows * 2))
+
+            h = Hall(id=i + 1, name=f'{i + 1} {rname}', rows=rrows, columns=rcol)
+            h.save()
+        return True
+    except:
+        return False
+
+
+def fill_screenings():
+    movies = Movie.objects.all()
+    halls = Hall.objects.all()
+    try:
+        day = datetime.now()
+        day = datetime(year=day.year, month=day.month, day=day.day, hour=START_HOUR, minute=0, second=0,)
+        timezone = pytz.timezone("Europe/Warsaw")
+        day = timezone.localize(day)
+
+        for h in halls:
+            for d in range(1, DAYS+1):
+                new_day = day + timedelta(days=d) + timedelta(minutes=random.randint(0, 8)*15)
+                while True:
+                    m = random.choice(movies)
+                    # Create screening
+                    s = Screening(hall=h, movie=m, date=new_day)
+                    #print(s)
+                    s.save()
+                    new_day = new_day + timedelta(hours=3) + timedelta(minutes=random.randint(1, 3)*15)
+                    if new_day.hour >= END_HOUR or new_day.hour < START_HOUR:
+                        break
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+def fill_tickets():
+    screenings = Screening.objects.all()
+
+    try:
+        for s in screenings:
+            for i in range(s.hall.rows * s.hall.columns):
+                t = Ticket(seat_number=i+1, screening=s, owner=None)
+                #print(t)
+                t.save()
+
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
 class GenerateDB(APIView):
     authentication_classes = []
     permission_classes = []
 
     def get(self, request):
-        res = fill()
+        results = []
+        results.append(fill_movies())
+        results.append(fill_halls())
+        results.append(fill_screenings())
+        results.append(fill_tickets())
+        res = reduce(lambda a, b: a and b, results)
+
         content = {'message': 'Filled db'} if res else {'message': 'Error while filling db'}
         return Response(content)
