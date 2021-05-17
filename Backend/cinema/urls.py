@@ -21,6 +21,10 @@ urlpatterns = [
     path('genres/', movies_views.GenresView.as_view(), name='all_genres'),
     path('genres/<str:genre_name>', movies_views.GenreMovieView.as_view(), name='movie_by_genre'),
 
-    ## test
-    # path('test/', tickets_views.TestView.as_view(), name='test'),
+    path('halls/', tickets_views.AllHallsView.as_view(), name='all_halls'),
+    path('halls/<int:hall_id>', tickets_views.SingleHallView.as_view(), name='hall_by_id'),
+
+    path('screenings/', tickets_views.AllScreeningsView.as_view(), name='all screenings'),
+    path('screenings/<int:screening_id>', tickets_views.SingleScreeningView.as_view(), name='screening_by_id'),
+    path('screenings/now/', tickets_views.ScreeningsNowView.as_view(), name='screenings_now'),
 ]

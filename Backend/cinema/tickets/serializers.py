@@ -13,10 +13,11 @@ class HallSerializer(serializers.Serializer):
 
 class ScreeningSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    hall_id = serializers.CharField(source='hall.id')
     hall = serializers.CharField(source='hall.name')
     movie_id = serializers.IntegerField(source='movie.id')
     movie_name = serializers.CharField(source='movie')
-    date = serializers.DateTimeField()
+    date = serializers.DateTimeField(format='%Y/%m/%d %H:%M')
 
     class Meta:
         model = Screening
