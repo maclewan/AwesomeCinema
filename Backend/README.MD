@@ -95,4 +95,4 @@ Provide header
 * screening by id `/cinema/screenings/{id}`
 
 
-* screening that starts after 30 minutes ago`/cinema/screenings/now/`
+* screenings that start after 30 minutes ago`/cinema/screenings/now/`
