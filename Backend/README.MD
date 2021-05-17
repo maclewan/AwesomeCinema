@@ -7,8 +7,7 @@
 * Create env using [env](environment.yml) file. 
   Little [help](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
     here...
-## Fill db
-* Send `get` request to `/cinema/fill/` endpoint one time
+
 # Run
 
 Run postgres app with `sudo docker-compose up`
@@ -16,6 +15,9 @@ Run postgres app with `sudo docker-compose up`
 Run django with `python manage.py runserver`
 
 # Endpoints
+
+## Fill db
+* Send `get` request to `/cinema/fill/` endpoint one time
 
 ## Auth
 
@@ -56,12 +58,41 @@ Provide header
 
 * all movies `/cinema/movies/`
 
+
 * movies by name `/cinema/movies/?name={movie_name}`
+
 
 * Movie by id `/cinema/movies/{id}`
 
+
 * all genres `/cinema/genres/`
+
 
 * movies by genre `/cinema/genres/{genre_name}`
 
+## Halls
+
+* all halls `/cinema/halls/`
   
+
+* hall by id `/cinema/halls/{id}`
+
+## Screenings
+
+* all screenings `/cinema/screenings/`
+
+  Screenings can be filtered using following query parameters:
+
+  * `?hall_id={hall_id}`
+
+  * `?movie_id={movie_id}`
+
+  * `?date=2021/05/25` (in format yyyy/MM/dd as in example)
+  
+  You can use any of parameters.
+
+
+* screening by id `/cinema/screenings/{id}`
+
+
+* screening that starts after 30 minutes ago`/cinema/screenings/now/`

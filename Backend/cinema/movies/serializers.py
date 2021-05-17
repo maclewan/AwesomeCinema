@@ -10,7 +10,7 @@ class MovieSerializer(serializers.Serializer):
     backdrop = serializers.CharField()
     rating = serializers.FloatField()
     description = serializers.CharField()
-    releaseDate = serializers.DateField()
+    releaseDate = serializers.DateField(format='%Y/%m/%d %H:%M')
 
     def update(self, instance, validated_data):
         pass
