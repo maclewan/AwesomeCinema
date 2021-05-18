@@ -12,6 +12,8 @@
 
 Run postgres app with `sudo docker-compose up`
 
+Run migrations with `python manage.py makemigrations cinema && python manage.py migrate`
+
 Run django with `python manage.py runserver`
 
 # Endpoints
