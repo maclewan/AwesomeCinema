@@ -54,4 +54,6 @@ dependencies:
   - zlib=1.2.11=h7b6447c_3
   - pip:
     - psycopg2-binary==2.8.6
+    - pypng==0.0.20
+    - pyqrcode==1.2.1
 prefix: /home/maciej/anaconda3/envs/mobilki

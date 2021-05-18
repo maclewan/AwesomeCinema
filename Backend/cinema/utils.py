@@ -29,3 +29,5 @@ def parse_raw_date(r_date):
 def timezonize_date(date):
     timezone = pytz.timezone("Europe/Warsaw")
     return timezone.localize(date)
+
+

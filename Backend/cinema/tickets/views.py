@@ -10,6 +10,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from cinema.mailing import send_qr_code, verify_qr_code
 from cinema.tickets.models import Hall, Screening, Ticket
 from cinema.tickets.serializers import HallSerializer, ScreeningSerializer, TicketSerializer
 from cinema.utils import parse_raw_date, timezonize_date
@@ -113,3 +114,77 @@ class ScreeningsNowView(APIView):
             'screenings': serialized
         }
         return Response(payload, status=status.HTTP_200_OK)
+
+
+class AvailableScreeningTicketsView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request, screening_id):
+        """
+        Returns all available tickets for this screening
+        """
+
+        tickets = Ticket.objects.filter(screening__id=screening_id, owner=None)
+        serialized = TicketSerializer(tickets, many=True).data
+        payload = {
+            'tickets': serialized
+        }
+        return Response(payload, status=status.HTTP_200_OK)
+
+
+class BuyTicketView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request: Request):
+        """
+        Changes ticket owner to user, if ticketis available (owner==null)
+        """
+        ticket_id = request.data['ticket_id']
+        try:
+            ticket = Ticket.objects.get(id=ticket_id)
+        except ObjectDoesNotExist:
+            return Response({'message': 'Ticket not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if ticket.owner:
+            return Response({'message': 'Ticket is not available'}, status=status.HTTP_403_FORBIDDEN)
+
+        TicketSerializer().update_owner(ticket, request.user)
+
+        send_qr_code(ticket)
+
+        payload = {
+            'message': f'Successfully changed owner to {request.user.id}',
+            'ticket': TicketSerializer(ticket).data
+        }
+        return Response(payload, status=status.HTTP_200_OK)
+
+
+class VerifyTicketView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request: Request):
+        """
+        Changes ticket owner to user, if ticketis available (owner==null)
+        """
+        ticket_id = request.data['ticket_id']
+        try:
+            ticket = Ticket.objects.get(id=ticket_id)
+        except ObjectDoesNotExist:
+            return Response({'message': 'Ticket not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        hashed = request.data['hash']
+
+        if not verify_qr_code(ticket, hashed):
+            return Response({'message': 'Incorrect qr code'}, status=status.HTTP_403_FORBIDDEN)
+
+        if ticket.used:
+            return Response({'message': 'Ticket already used'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        TicketSerializer().use(ticket)
+
+        send_qr_code(ticket)
+
+        payload = {
+            'message': f'Successfully verified ticket'
+        }
+        return Response(payload, status=status.HTTP_202_ACCEPTED)

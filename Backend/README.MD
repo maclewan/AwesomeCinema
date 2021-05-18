@@ -17,11 +17,15 @@ Run django with `python manage.py runserver`
 # Endpoints
 
 ## Fill db
-* Send `get` request to `/cinema/fill/` endpoint one time
+* Send request to 
+    
+  `GET:  /cinema/fill/` endpoint one time
 
 ## Auth
 
-* register `/auth/register/` 
+* register 
+  
+    `POST: /auth/register/` 
 
 ```json
 {
@@ -35,7 +39,9 @@ Run django with `python manage.py runserver`
 
 
 
-* login `/auth/login/`
+* login 
+  
+    `POST: /auth/login/`
 
 ```json
 {
@@ -46,7 +52,9 @@ Run django with `python manage.py runserver`
 ```
 
 
-* example hello world `/cinema/hello`
+* example hello world 
+  
+  `GET: /cinema/hello`
 
 Token authentication example. 
 Provide header 
@@ -56,30 +64,46 @@ Provide header
 
 ## Movies and genres
 
-* all movies `/cinema/movies/`
+* all movies 
+  
+  `GET: /cinema/movies/`
 
 
-* movies by name `/cinema/movies/?name={movie_name}`
+* movies by name 
+  
+  `GET: /cinema/movies/?name={movie_name}`
 
 
-* Movie by id `/cinema/movies/{id}`
+* Movie by id 
+  
+  `GET: /cinema/movies/{id}`
 
 
-* all genres `/cinema/genres/`
+* all genres 
+  
+  `GET: /cinema/genres/`
 
 
-* movies by genre `/cinema/genres/{genre_name}`
+* movies by genre 
+  
+  `GET: /cinema/genres/{genre_name}`
 
 ## Halls
 
-* all halls `/cinema/halls/`
+* all halls 
+  
+  `GET: /cinema/halls/`
   
 
-* hall by id `/cinema/halls/{id}`
+* hall by id 
+  
+  `GET: /cinema/halls/{id}`
 
 ## Screenings
 
-* all screenings `/cinema/screenings/`
+* all screenings 
+  
+  `GET: /cinema/screenings/`
 
   Screenings can be filtered using following query parameters:
 
@@ -92,7 +116,41 @@ Provide header
   You can use any of parameters.
 
 
-* screening by id `/cinema/screenings/{id}`
+* screening by id 
+  
+  `GET: /cinema/screenings/{id}`
 
 
-* screenings that start after 30 minutes ago`/cinema/screenings/now/`
+* screenings that start after 30 minutes ago 
+  
+  `GET: /cinema/screenings/now/`
+
+
+## Tickets
+
+* available tickets for screening 
+  
+  `GET: /cinema/tickets/{screening_id}`
+
+
+* set logged user owner of ticket 
+  
+  `POST: /cinema/tickets/buy/`
+
+```json 
+{
+    "ticket_id" : 2137,
+} 
+```
+  
+
+* try to change ticket status as used 
+  
+  `POST: /cinema/tickets/use/`
+
+```json 
+{
+    "ticket_id" : 2137,
+    "hash": "eba24k23ak3ahbv1ibh@lsekjrbl23qr912kjb132q"
+} 
+```

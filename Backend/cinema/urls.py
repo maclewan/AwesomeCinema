@@ -27,4 +27,11 @@ urlpatterns = [
     path('screenings/', tickets_views.AllScreeningsView.as_view(), name='all screenings'),
     path('screenings/<int:screening_id>', tickets_views.SingleScreeningView.as_view(), name='screening_by_id'),
     path('screenings/now/', tickets_views.ScreeningsNowView.as_view(), name='screenings_now'),
+
+    path('tickets/<int:screening_id>', tickets_views.AvailableScreeningTicketsView.as_view(), name='available_tickets_for_screening'),
+    path('tickets/buy/', tickets_views.BuyTicketView.as_view(), name='buy_ticket'),
+    path('tickets/verify/', tickets_views.VerifyTicketView.as_view(), name='verify_ticket')
+
+
+
 ]
