@@ -16,13 +16,16 @@ import {
   createSwitchNavigator,
 } from '@react-navigation/native';
 
-import SplashScreen from  "react-native-splash-screen";
+import SplashScreen from 'react-native-splash-screen';
 
 import {navigationRef} from './src/helpers/navigationRef';
 import MovieListScreen from './src/screens/MovieListScreen';
 import MovieDetailsScreen from './src/screens/MovieDetailsScreen';
 import MovieDisplayDatesScreen from './src/screens/MovieDisplayDatesScreen';
 import AuthScreen from './src/screens/AuthScreen';
+
+import {Provider as AuthProvider} from './src/context/AuthContext';
+import {Provider as MovieProvider} from './src/context/MovieContext';
 
 const Stack = createStackNavigator();
 
@@ -68,9 +71,13 @@ export default () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView behavior={'height'} style={{flex: 1}}>
-        <NavigationContainer>
-          <App />
-        </NavigationContainer>
+        <AuthProvider>
+          <MovieProvider>
+            <NavigationContainer>
+              <App />
+            </NavigationContainer>
+          </MovieProvider>
+        </AuthProvider>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
