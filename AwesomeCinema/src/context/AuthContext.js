@@ -3,6 +3,8 @@ import createDataContext from './createDataContext';
 import myapi from '../api/myapi';
 import {navigate} from '../helpers/navigationRef';
 
+import axios from 'axios';
+
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
 const ERROR = 'ERROR';
@@ -45,47 +47,97 @@ const tryLocalLogin = dispatch => async () => {
 
 // obsługa logowania danymi 'username' oraz 'password'
 const login = dispatch => async (username, password) => {
-  await myapi
-    .post('/auth/sign-in', {username, password})
+  await fetch('http://10.0.2.2:8000/auth/login/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify({username, password, email: username}),
+  })
+    .then(response => response.json())
     .then(async response => {
-      const token = response.data.token;
-      const usrname = response.data.username;
-      // zapisanie 'token' oraz 'username' w pamięci urządzenia
-      // aby umożliwić automatyczne logowanie
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      const token = response.key;
+      // const usrname = response.data.username;
+      // // zapisanie 'token' oraz 'username' w pamięci urządzenia
+      // // aby umożliwić automatyczne logowanie
       await AsyncStorage.setItem('token', token);
-      await AsyncStorage.setItem('username', usrname);
-      dispatch({type: LOGIN, payload: {token, usrname}});
+      // await AsyncStorage.setItem('username', usrname);
+      dispatch({type: LOGIN, payload: {token}});
       // po udanym logowaniu nawigacja do ekranu Dashboard
       navigate('MovieList');
     })
     .catch(error => {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
       dispatch({
         type: ERROR,
-        payload: error.response.data.error,
+        payload: error,
       });
     });
 };
 // obsługa logowania danymi 'username' oraz 'password'
 const register = dispatch => async (email, password1, password2) => {
   console.log('dupa print');
-  await myapi
-    .post('/auth/login', {username: email, password1, password2, email})
-    .then(async response => {
+  await fetch('http://10.0.2.2:8000/auth/register/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify({username: email, password1, password2, email}),
+  })
+    .then(response => JSON.stringify(response))
+    .then(data => {
       console.log('====================================');
-      console.log(response);
+      console.log(data);
       console.log('====================================');
-      // po udanym logowaniu nawigacja do ekranu Auth
-      navigate('Auth');
     })
     .catch(error => {
       console.log('====================================');
-      console.log(JSON.stringify(error));
+      console.error(error);
       console.log('====================================');
       dispatch({
         type: ERROR,
         payload: error?.response?.data?.error,
       });
     });
+  // await axios
+  //   .post(
+  //     'https://api.gn2.dev/core/workers/auth/login',
+  //     JSON.stringify({
+  //       username: 'text',
+  //       password: 'test',
+  //     }),
+  //     {
+  //       headers: {
+  //         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+  //       },
+  //     },
+  //   )
+  //   .then(async response => {
+  //     console.log('====================================');
+  //     console.log('sth');
+  //     console.log('====================================');
+  //     console.log('====================================');
+  //     console.log(response);
+  //     console.log('====================================');
+  //     // po udanym logowaniu nawigacja do ekranu Auth
+  //     navigate('Auth');
+  //   })
+  //   .catch(error => {
+  //     console.log('====================================');
+  //     console.log(JSON.stringify(error));
+  //     console.log('====================================');
+  //     dispatch({
+  //       type: ERROR,
+  //       payload: error?.response?.data?.error,
+  //     });
+  //   });
 };
 
 const logout = dispatch => async () => {
