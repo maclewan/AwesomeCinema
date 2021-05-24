@@ -42,9 +42,7 @@ const App = () => {
   });
 
   return (
-    <Stack.Navigator
-      initialRouteName="AuthScreen"
-      innerRef={navigator => navigationRef(navigator)}>
+    <Stack.Navigator initialRouteName="AuthScreen">
       <Stack.Screen
         name="Auth"
         component={AuthScreen}
@@ -79,7 +77,7 @@ export default () => {
       <KeyboardAvoidingView behavior={'height'} style={{flex: 1}}>
         <AuthProvider>
           <MovieProvider>
-            <NavigationContainer>
+            <NavigationContainer ref={navigationRef}>
               <App />
             </NavigationContainer>
           </MovieProvider>

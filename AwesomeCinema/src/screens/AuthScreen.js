@@ -4,23 +4,23 @@ import {Text, View, StyleSheet, Image} from 'react-native';
 import AuthForm from '../components/AuthForm';
 import {Context as AuthContext} from '../context/AuthContext';
 
-const AuthScreen = ({navigation}) => {
+const AuthScreen = () => {
   const [authType, setAuthType] = useState('sign-in');
-  const {state, register, login} = useContext(AuthContext);
+  const {register, login} = useContext(AuthContext);
 
   const signIn = async (email, password) => {
     // send data to API
     console.log('sign in');
     console.log(email, password);
-    // await login(email, password, email);
-    navigation.navigate('MovieList');
+    await login(email, password, email);
+    // navigation.navigate('MovieList');
   };
 
   const signUp = async (email, password, password2) => {
     // send data to API
     console.log('sign up');
     console.log(email, password, password2);
-    // await register(email, password, password2, email);
+    await register(email, password, password2, email);
     setAuthType('sign-in');
   };
 

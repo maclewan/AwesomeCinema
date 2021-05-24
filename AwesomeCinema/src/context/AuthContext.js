@@ -1,9 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import createDataContext from './createDataContext';
-import myapi from '../api/myapi';
 import {navigate} from '../helpers/navigationRef';
 
-import axios from 'axios';
+import {BASE_URL} from '../constants';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
@@ -47,11 +46,10 @@ const tryLocalLogin = dispatch => async () => {
 
 // obsługa logowania danymi 'username' oraz 'password'
 const login = dispatch => async (username, password) => {
-  await fetch('http://10.0.2.2:8000/auth/login/', {
+  await fetch(`${BASE_URL}/auth/login/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: JSON.stringify({username, password, email: username}),
   })
@@ -61,7 +59,6 @@ const login = dispatch => async (username, password) => {
       console.log(response);
       console.log('====================================');
       const token = response.key;
-      // const usrname = response.data.username;
       // // zapisanie 'token' oraz 'username' w pamięci urządzenia
       // // aby umożliwić automatyczne logowanie
       await AsyncStorage.setItem('token', token);
@@ -83,61 +80,24 @@ const login = dispatch => async (username, password) => {
 // obsługa logowania danymi 'username' oraz 'password'
 const register = dispatch => async (email, password1, password2) => {
   console.log('dupa print');
-  await fetch('http://10.0.2.2:8000/auth/register/', {
+  await fetch(`${BASE_URL}/auth/register/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: JSON.stringify({username: email, password1, password2, email}),
   })
     .then(response => JSON.stringify(response))
     .then(data => {
-      console.log('====================================');
       console.log(data);
-      console.log('====================================');
     })
     .catch(error => {
-      console.log('====================================');
       console.error(error);
-      console.log('====================================');
       dispatch({
         type: ERROR,
         payload: error?.response?.data?.error,
       });
     });
-  // await axios
-  //   .post(
-  //     'https://api.gn2.dev/core/workers/auth/login',
-  //     JSON.stringify({
-  //       username: 'text',
-  //       password: 'test',
-  //     }),
-  //     {
-  //       headers: {
-  //         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-  //       },
-  //     },
-  //   )
-  //   .then(async response => {
-  //     console.log('====================================');
-  //     console.log('sth');
-  //     console.log('====================================');
-  //     console.log('====================================');
-  //     console.log(response);
-  //     console.log('====================================');
-  //     // po udanym logowaniu nawigacja do ekranu Auth
-  //     navigate('Auth');
-  //   })
-  //   .catch(error => {
-  //     console.log('====================================');
-  //     console.log(JSON.stringify(error));
-  //     console.log('====================================');
-  //     dispatch({
-  //       type: ERROR,
-  //       payload: error?.response?.data?.error,
-  //     });
-  //   });
 };
 
 const logout = dispatch => async () => {
