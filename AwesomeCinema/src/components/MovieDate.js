@@ -1,12 +1,14 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 
+import {navigate} from '../helpers/navigationRef'
+
 const MovieDate = ({item}) => {
   const generateHours = hours =>
     hours.map((hour, index) => (
       <TouchableOpacity
         key={`${hour}-${index}`}
-        onPress={() => console.log('navigate to change sits')}>
+        onPress={() => navigate('ChoosePlace', {item, hour})}>
         <Text style={{color: '#333', margin: 5, fontSize: 16}}>{hour}</Text>
       </TouchableOpacity>
     ));

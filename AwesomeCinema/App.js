@@ -23,6 +23,7 @@ import MovieListScreen from './src/screens/MovieListScreen';
 import MovieDetailsScreen from './src/screens/MovieDetailsScreen';
 import MovieDisplayDatesScreen from './src/screens/MovieDisplayDatesScreen';
 import AuthScreen from './src/screens/AuthScreen';
+import ChoosePlaceScreen from './src/screens/ChoosePlaceScreen';
 
 import {Provider as AuthProvider} from './src/context/AuthContext';
 import {Provider as MovieProvider} from './src/context/MovieContext';
@@ -62,6 +63,11 @@ const App = () => {
       <Stack.Screen
         name="MovieDisplayDates"
         component={MovieDisplayDatesScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ChoosePlace"
+        component={ChoosePlaceScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

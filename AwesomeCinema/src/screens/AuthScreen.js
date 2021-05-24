@@ -12,7 +12,7 @@ const AuthScreen = ({navigation}) => {
     // send data to API
     console.log('sign in');
     console.log(email, password);
-    await login(email, password, email);
+    // await login(email, password, email);
     navigation.navigate('MovieList');
   };
 
@@ -20,7 +20,7 @@ const AuthScreen = ({navigation}) => {
     // send data to API
     console.log('sign up');
     console.log(email, password, password2);
-    await register(email, password, password2, email);
+    // await register(email, password, password2, email);
     setAuthType('sign-in');
   };
 
