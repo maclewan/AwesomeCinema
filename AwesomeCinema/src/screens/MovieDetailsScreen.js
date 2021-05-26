@@ -14,6 +14,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import Genres from '../components/Genres';
 import Rating from '../components/Rating';
+import { COLORS } from '../constants';
 
 const MovieDetailsScreen = ({route, navigation}) => {
   const item = route.params?.item ?? null;
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     alignSelf: 'center',
-    backgroundColor: '#F16365',
+    backgroundColor: COLORS.red,
     borderRadius: 5,
   },
   buttonText: {

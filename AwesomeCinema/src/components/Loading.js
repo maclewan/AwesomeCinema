@@ -1,9 +1,9 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
 
 const Loading = () => (
   <View style={styles.loadingContainer}>
-    <Text style={styles.paragraph}>Loading...</Text>
+    <ActivityIndicator size="large" color="#ff2f00" />
   </View>
 );
 
@@ -12,12 +12,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
 

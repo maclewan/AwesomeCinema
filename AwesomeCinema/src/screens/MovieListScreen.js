@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   Text,
   View,
@@ -12,12 +12,15 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 
-import {getMovies} from '../api/tmdbAPI';
+import {Context as MovieContext} from '../context/MovieContext';
+
+// import {getMovies} from '../api/tmdbAPI';
 import Genres from '../components/Genres';
 import Rating from '../components/Rating';
 import Backdrop from '../components/Backdrop';
 import Loading from '../components/Loading';
 import SearchBar from 'react-native-searchbar';
+import { COLORS } from '../constants';
 
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;
@@ -25,6 +28,8 @@ const ITEM_SIZE = width * 0.72;
 const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
 const MovieListScreen = ({navigation}) => {
+  const {getMovies, state} = useContext(MovieContext);
+
   const [movies, setMovies] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchMovies, setSearchMovies] = useState([]);
@@ -33,15 +38,17 @@ const MovieListScreen = ({navigation}) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const movies = await getMovies();
-      setMovies([{key: 'left-spacer'}, ...movies, {key: 'right-spacer'}]);
-      setSearchMovies([{key: 'left-spacer'}, ...movies, {key: 'right-spacer'}]);
+      getMovies();
     };
 
-    if (movies.length === 0) {
+    if (state.movies.length === 0) {
       fetchData(movies);
+    } else {
+      const movies = state.movies;
+      setMovies([{id: 'left-spacer'}, ...movies, {id: 'right-spacer'}]);
+      setSearchMovies([{id: 'left-spacer'}, ...movies, {id: 'right-spacer'}]);
     }
-  }, [movies]);
+  }, [state.movies]);
 
   if (movies.length === 0) {
     return <Loading />;
@@ -53,11 +60,7 @@ const MovieListScreen = ({navigation}) => {
       .filter(movie =>
         movie.title.toLowerCase().includes(results.toLowerCase()),
       );
-    setSearchMovies([
-      {key: 'left-spacer'},
-      ...searchList,
-      {key: 'right-spacer'},
-    ]);
+    setSearchMovies([{id: 'left-spacer'}, ...searchList, {id: 'right-spacer'}]);
   };
 
   return (
@@ -67,7 +70,7 @@ const MovieListScreen = ({navigation}) => {
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
         data={searchMovies}
-        keyExtractor={item => item.key}
+        keyExtractor={item => item.id}
         horizontal
         contentContainerStyle={{alignItems: 'center'}}
         snapToInterval={ITEM_SIZE}
@@ -120,11 +123,17 @@ const MovieListScreen = ({navigation}) => {
       />
       <Icon
         raised
+        reverse
         name="search"
         type="EvilIcons"
-        color="#F16365"
+        color={COLORS.red}
         size={30}
-        containerStyle={{position: 'absolute', bottom: 0, alignSelf: 'center'}}
+        containerStyle={{
+          position: 'absolute',
+          bottom: 0,
+          alignSelf: 'center',
+          padding: 0,
+        }}
         onPress={() => {
           if (isSearching) {
             searchBar.current.hide();
@@ -167,10 +176,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     margin: 0,
     marginBottom: 10,
-  },
-  iconSearch: {
-    color: '#F16365',
-    backgroundColor: '#F16365',
   },
 });
 

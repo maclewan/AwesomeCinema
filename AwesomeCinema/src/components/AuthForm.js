@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {Input, Icon} from 'react-native-elements';
 
 const AuthForm = ({
@@ -9,15 +15,14 @@ const AuthForm = ({
   onButtonPress,
   changeAuthForm,
 }) => {
-  const [email, setEmail] = useState('');
-  const [password1, setPassword1] = useState('');
-  const [password2, setPassword2] = useState('');
+  const [email, setEmail] = useState('piotrszym159@gmail.com');
+  const [password1, setPassword1] = useState('Pitimonster1');
+  const [password2, setPassword2] = useState('Pitimonster1');
 
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
-    style={styles.container}
-  >
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}>
       <Text style={styles.headerText}>{headerText}</Text>
       <Input
         autoCapitalize="none"
@@ -87,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '80%',
   },
-  headerText: {fontSize: 25, color: '#000', marginBottom: 10,},
+  headerText: {fontSize: 25, color: '#000', marginBottom: 10},
   input: {
     paddingLeft: 10,
   },
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
   buttonChangeAuthFormText: {
     fontSize: 16,
     color: '#444',
-  }
+  },
 });
 
 export default AuthForm;
