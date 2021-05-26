@@ -27,6 +27,7 @@ import ChoosePlaceScreen from './src/screens/ChoosePlaceScreen';
 
 import {Provider as AuthProvider} from './src/context/AuthContext';
 import {Provider as MovieProvider} from './src/context/MovieContext';
+import PaymentSuccessScreen from './src/screens/PaymentSuccessScreen';
 
 const Stack = createStackNavigator();
 
@@ -66,6 +67,11 @@ const App = () => {
       <Stack.Screen
         name="ChoosePlace"
         component={ChoosePlaceScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PaymentSuccess"
+        component={PaymentSuccessScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

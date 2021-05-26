@@ -20,6 +20,7 @@ import Rating from '../components/Rating';
 import Backdrop from '../components/Backdrop';
 import Loading from '../components/Loading';
 import SearchBar from 'react-native-searchbar';
+import { COLORS } from '../constants';
 
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;
@@ -125,7 +126,7 @@ const MovieListScreen = ({navigation}) => {
         reverse
         name="search"
         type="EvilIcons"
-        color="#F16365"
+        color={COLORS.red}
         size={30}
         containerStyle={{
           position: 'absolute',

@@ -3,7 +3,9 @@ import {Text, View} from 'react-native';
 
 import {Icon} from 'react-native-elements';
 
-const Sit = ({color, size, text}) => {
+import {COLORS} from '../constants';
+
+const Sit = ({color, size, text, addToSelectedSits, rmFromSelectedSits}) => {
   const [myColor, setMyColor] = useState(color);
 
   return (
@@ -15,9 +17,14 @@ const Sit = ({color, size, text}) => {
         size={size}
         iconStyle={{margin: 2}}
         onPress={() => {
-          if (text || myColor === '#F16365') return;
-          if (myColor === '#f5bf42') setMyColor('#ccc');
-          else setMyColor('#f5bf42');
+          if (text || myColor === COLORS.red) return;
+          if (myColor === COLORS.yellow) {
+            setMyColor(COLORS.grey);
+            rmFromSelectedSits();
+          } else {
+            setMyColor(COLORS.yellow);
+            addToSelectedSits();
+          }
           console.log(myColor);
           // else change color from green to grey / from grey to green
         }}

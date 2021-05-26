@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {COLORS} from '../constants';
 
 import {navigate} from '../helpers/navigationRef';
 
@@ -35,10 +36,10 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 22,
-    color: '#f5bf42',
+    color: COLORS.yellow,
   },
   dividor: {
-    borderBottomColor: '#ccc',
+    borderBottomColor: COLORS.grey,
     borderBottomWidth: 1,
     marginBottom: 10,
   },

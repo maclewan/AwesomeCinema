@@ -142,6 +142,32 @@ const getFreeTickets = dispatch => async screeningId => {
     });
 };
 
+const buyTicket = dispatch => async ticket_id => {
+  const token = await AsyncStorage.getItem('token');
+  await fetch(`${BASE_URL}/cinema/tickets/buy/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`,
+    },
+    body: JSON.stringify({ticket_id}),
+  })
+    .then(response => response.json())
+    .then(response => {
+      const ticket = response.ticket;
+      const message = response.message;
+      console.log(ticket);
+      console.log(message);
+      // dispatch({type: GET_FREE_TICKETS, payload: {freeTickets}});
+    })
+    .catch(error => {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+      dispatch({type: ERROR, payload: error});
+    });
+};
+
 const bookTicket = dispatch => async () => {
   await myapi
     .post('url', {data})
@@ -152,7 +178,15 @@ const bookTicket = dispatch => async () => {
 // stworzenie i eksport Provider i Context dające dostęp do powyższych funkcji i danych
 export const {Provider, Context} = createDataContext(
   movieReducer,
-  {getMovies, getScreenings, bookTicket, getScreening, getHall, getFreeTickets},
+  {
+    getMovies,
+    getScreenings,
+    bookTicket,
+    getScreening,
+    buyTicket,
+    getHall,
+    getFreeTickets,
+  },
   {
     movies: [],
     screenings: [],
