@@ -10,6 +10,7 @@ const GET_SCREENINGS = 'GET SCREENINGS DATA';
 const GET_SCREENING = 'GET ONE SCREENING DATA';
 const GET_FREE_TICKETS = 'GET FREE TICKETS';
 const GET_HALL = 'GET ONE HALL DATA';
+const CLEAR = 'CLEAR DATA';
 const ERROR = 'ERROR';
 
 // reducer obsługujący akcje związane z filmami
@@ -25,6 +26,14 @@ const movieReducer = (state, action) => {
       return {...state, freeTickets: action.payload.freeTickets};
     case GET_HALL:
       return {...state, currHall: action.payload.currHall};
+    case CLEAR:
+      return {
+        ...state,
+        screenings: [],
+        currScreening: null,
+        currHall: null,
+        freeTickets: [],
+      };
     case ERROR:
       return {...state, errMsg: action.payload};
     default:
@@ -168,11 +177,14 @@ const buyTicket = dispatch => async ticket_id => {
     });
 };
 
-const bookTicket = dispatch => async () => {
-  await myapi
-    .post('url', {data})
-    .then(response => {})
-    .catch(err => {});
+const clearData = dispatch => () => {
+  dispatch({type: CLEAR});
+  console.log('czyszcze');
+};
+
+const toMovieList = dispatch => () => {
+  dispatch({type: CLEAR});
+  navigate('MovieList');
 };
 
 // stworzenie i eksport Provider i Context dające dostęp do powyższych funkcji i danych
@@ -181,11 +193,12 @@ export const {Provider, Context} = createDataContext(
   {
     getMovies,
     getScreenings,
-    bookTicket,
     getScreening,
     buyTicket,
     getHall,
     getFreeTickets,
+    clearData,
+    toMovieList,
   },
   {
     movies: [],

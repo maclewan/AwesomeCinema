@@ -4,7 +4,6 @@ import {Text, View, StyleSheet, Pressable} from 'react-native';
 import {COLORS} from '../constants';
 import {Context as MovieContext} from '../context/MovieContext';
 import Loading from '../components/Loading';
-import {Icon} from 'react-native-elements';
 
 import Sit from '../components/Sit';
 
@@ -31,7 +30,7 @@ const ChoosePlaceScreen = ({route, navigation}) => {
 
     if (!state.currScreening) {
       fetchData();
-    } else if (!state.currHall && state.freeTickets.length === 0) {
+    } else if (!state.currHall && state.freeTickets.length === 0 || !screening) {
       setScreening(state.currScreening);
       fetchAddData();
     } else {

@@ -20,7 +20,7 @@ import Rating from '../components/Rating';
 import Backdrop from '../components/Backdrop';
 import Loading from '../components/Loading';
 import SearchBar from 'react-native-searchbar';
-import { COLORS } from '../constants';
+import {COLORS} from '../constants';
 
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;
@@ -28,7 +28,7 @@ const ITEM_SIZE = width * 0.72;
 const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
 const MovieListScreen = ({navigation}) => {
-  const {getMovies, state} = useContext(MovieContext);
+  const {getMovies, state, clearData} = useContext(MovieContext);
 
   const [movies, setMovies] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -37,6 +37,19 @@ const MovieListScreen = ({navigation}) => {
   const searchBar = useRef(null);
 
   useEffect(() => {
+    console.log('czyszcze dane');
+    clearData();
+  }, [state.hallData]);
+
+  useEffect(() => {
+    console.log('czyszcze eee');
+    clearData();
+  }, []);
+
+  useEffect(() => {
+    console.log('czyszcze');
+    clearData();
+
     const fetchData = async () => {
       getMovies();
     };
