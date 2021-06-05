@@ -79,7 +79,7 @@ const MovieDisplayDatesScreen = ({route, navigation}) => {
           source={{uri: item.backdrop}}
           style={{
             width,
-            height: height * 0.5,
+            height: height * 0.7,
             flex: 1,
             resizeMode: 'cover',
             alignSelf: 'center',

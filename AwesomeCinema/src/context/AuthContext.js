@@ -3,10 +3,12 @@ import createDataContext from './createDataContext';
 import {navigate} from '../helpers/navigationRef';
 
 import {BASE_URL} from '../constants';
+import axios from 'axios';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
 const ERROR = 'ERROR';
+const LOADING = 'LOADING';
 
 // reducer, który obsługuje akcje związane z autoryzacją użytkownika
 // state = { token, errMsg }
@@ -23,6 +25,8 @@ const authReducer = (state, action) => {
       };
     case LOGOUT:
       return {token: null, username: '', errMsg: ''};
+    case LOADING:
+      return {...state, loading: action.payload.loading};
     case ERROR:
       return {...state, errMsg: action.payload};
     default:
@@ -46,6 +50,7 @@ const tryLocalLogin = dispatch => async () => {
 
 // obsługa logowania danymi 'username' oraz 'password'
 const login = dispatch => async (username, password) => {
+  dispatch({type: LOADING, payload: {loading: true}});
   await fetch(`${BASE_URL}/auth/login/`, {
     method: 'POST',
     headers: {
@@ -64,8 +69,7 @@ const login = dispatch => async (username, password) => {
       await AsyncStorage.setItem('token', token);
       // await AsyncStorage.setItem('username', usrname);
       dispatch({type: LOGIN, payload: {token}});
-      // po udanym logowaniu nawigacja do ekranu Dashboard
-      navigate('MovieList');
+      isStaff();
     })
     .catch(error => {
       console.log('====================================');
@@ -76,10 +80,11 @@ const login = dispatch => async (username, password) => {
         payload: error,
       });
     });
+  dispatch({type: LOADING, payload: {loading: false}});
 };
 // obsługa logowania danymi 'username' oraz 'password'
 const register = dispatch => async (email, password1, password2) => {
-  console.log('dupa print');
+  dispatch({type: LOADING, payload: {loading: true}});
   await fetch(`${BASE_URL}/auth/register/`, {
     method: 'POST',
     headers: {
@@ -98,6 +103,7 @@ const register = dispatch => async (email, password1, password2) => {
         payload: error?.response?.data?.error,
       });
     });
+  dispatch({type: LOADING, payload: {loading: false}});
 };
 
 const logout = dispatch => async () => {
@@ -108,9 +114,32 @@ const logout = dispatch => async () => {
   navigate('Auth');
 };
 
+const isStaff = async () => {
+  const token = await AsyncStorage.getItem('token');
+  await fetch(`${BASE_URL}/cinema/is_staff`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`,
+    },
+  })
+    .then(response => response.json())
+    .then(response => {
+      // jeśli loguje się pracownik przekierowanie do ekranu skanowania biletu
+      // jeśli to klient to do listy filmów
+      if (response.is_staff) navigate('ScanTicket');
+      else navigate('MovieList');
+    })
+    .catch(error => {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+    });
+};
+
 // stworzenie i eksport Provider i Context dające dostęp do powyższych funkcji i danych
 export const {Provider, Context} = createDataContext(
   authReducer,
   {tryLocalLogin, login, logout, register},
-  {token: null, username: '', errMsg: ''},
+  {token: null, username: '', errMsg: '', loading: false},
 );

@@ -134,33 +134,36 @@ const MovieListScreen = ({navigation}) => {
           );
         }}
       />
-      <Icon
-        raised
-        reverse
-        name="search"
-        type="EvilIcons"
-        color={COLORS.red}
-        size={30}
-        containerStyle={{
-          position: 'absolute',
-          bottom: 0,
-          alignSelf: 'center',
-          padding: 0,
-        }}
-        onPress={() => {
-          if (isSearching) {
-            searchBar.current.hide();
-            setIsSearching(false);
-          } else {
-            searchBar.current.show();
-            setIsSearching(true);
-          }
-        }}
-      />
+      {!isSearching && (
+        <Icon
+          raised
+          reverse
+          name="search"
+          type="EvilIcons"
+          color={COLORS.red}
+          size={20}
+          containerStyle={{
+            position: 'absolute',
+            bottom: 0,
+            alignSelf: 'center',
+            padding: 0,
+          }}
+          onPress={() => {
+            if (isSearching) {
+              searchBar.current.hide();
+              setIsSearching(false);
+            } else {
+              searchBar.current.show();
+              setIsSearching(true);
+            }
+          }}
+        />
+      )}
       <SearchBar
         ref={searchBar}
         data={movies}
         handleSearch={handleSearchResults}
+        onHide={() => setIsSearching(false)}
       />
     </KeyboardAvoidingView>
   );

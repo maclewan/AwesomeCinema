@@ -24,6 +24,7 @@ import MovieDetailsScreen from './src/screens/MovieDetailsScreen';
 import MovieDisplayDatesScreen from './src/screens/MovieDisplayDatesScreen';
 import AuthScreen from './src/screens/AuthScreen';
 import ChoosePlaceScreen from './src/screens/ChoosePlaceScreen';
+import ScanTicketScreen from './src/screens/ScanTicketScreen';
 
 import {Provider as AuthProvider} from './src/context/AuthContext';
 import {Provider as MovieProvider} from './src/context/MovieContext';
@@ -43,7 +44,7 @@ const App = () => {
   });
 
   return (
-    <Stack.Navigator initialRouteName="AuthScreen">
+    <Stack.Navigator initialRouteName="Auth">
       <Stack.Screen
         name="Auth"
         component={AuthScreen}
@@ -72,6 +73,11 @@ const App = () => {
       <Stack.Screen
         name="PaymentSuccess"
         component={PaymentSuccessScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ScanTicket"
+        component={ScanTicketScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

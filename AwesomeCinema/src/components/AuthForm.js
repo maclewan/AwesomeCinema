@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import {Input, Icon} from 'react-native-elements';
 
@@ -15,51 +16,36 @@ const AuthForm = ({
   onButtonPress,
   changeAuthForm,
 }) => {
-  const [email, setEmail] = useState('piotrszym159@gmail.com');
-  const [password1, setPassword1] = useState('Pitimonster1');
-  const [password2, setPassword2] = useState('Pitimonster1');
+  const [email, setEmail] = useState('');
+  const [password1, setPassword1] = useState('');
+  const [password2, setPassword2] = useState('');
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
-      <Text style={styles.headerText}>{headerText}</Text>
-      <Input
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-        inputStyle={styles.input}
-        leftIcon={{
-          type: 'MaterialIcons',
-          name: 'email',
-          color: '#777',
-          size: 25,
-        }}
-      />
-      <Input
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={password1}
-        onChangeText={setPassword1}
-        placeholder="Password"
-        inputStyle={styles.input}
-        leftIcon={{
-          type: 'MaterialCommunityIcons',
-          name: 'lock',
-          color: '#777',
-          size: 25,
-        }}
-        secureTextEntry={true}
-      />
-      {type === 'sign-up' ? (
+    <ScrollView style={{flex: 1, width: '100%'}} contentContainerStyle={{alignItems: 'center'}}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
+        <Text style={styles.headerText}>{headerText}</Text>
         <Input
           autoCapitalize="none"
           autoCorrect={false}
-          value={password2}
-          onChangeText={setPassword2}
-          placeholder="Repeat password"
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Email"
+          inputStyle={styles.input}
+          leftIcon={{
+            type: 'MaterialIcons',
+            name: 'email',
+            color: '#777',
+            size: 25,
+          }}
+        />
+        <Input
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={password1}
+          onChangeText={setPassword1}
+          placeholder="Password"
           inputStyle={styles.input}
           leftIcon={{
             type: 'MaterialCommunityIcons',
@@ -69,20 +55,37 @@ const AuthForm = ({
           }}
           secureTextEntry={true}
         />
-      ) : null}
-      <TouchableOpacity
-        style={styles.buttonSubmit}
-        onPress={() => onButtonPress(email, password1, password2)}>
-        <Text style={styles.buttonSubmitText}>{buttonText}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonChangeAuthForm}
-        onPress={changeAuthForm}>
-        <Text style={styles.buttonChangeAuthFormText}>
-          {type === 'sign-up' ? 'Mam już konto!' : 'Nie posiadam konta :('}
-        </Text>
-      </TouchableOpacity>
-    </KeyboardAvoidingView>
+        {type === 'sign-up' ? (
+          <Input
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={password2}
+            onChangeText={setPassword2}
+            placeholder="Repeat password"
+            inputStyle={styles.input}
+            leftIcon={{
+              type: 'MaterialCommunityIcons',
+              name: 'lock',
+              color: '#777',
+              size: 25,
+            }}
+            secureTextEntry={true}
+          />
+        ) : null}
+        <TouchableOpacity
+          style={styles.buttonSubmit}
+          onPress={() => onButtonPress(email, password1, password2)}>
+          <Text style={styles.buttonSubmitText}>{buttonText}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonChangeAuthForm}
+          onPress={changeAuthForm}>
+          <Text style={styles.buttonChangeAuthFormText}>
+            {type === 'sign-up' ? 'Mam już konto!' : 'Nie posiadam konta :('}
+          </Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
