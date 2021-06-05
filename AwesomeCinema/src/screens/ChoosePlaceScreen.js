@@ -139,8 +139,6 @@ const ChoosePlaceScreen = ({route, navigation}) => {
       {generateSitsView()}
       {generateLegend()}
 
-      <View style={styles.legendContainer}></View>
-      <View style={styles.sitsContainer}></View>
 
       <View style={styles.modalView}>
         <Text style={styles.title}>
@@ -192,7 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff7263',
     width: '30%',
     marginTop: 10,
-    paddingVertical: 20,
+    paddingVertical: 10,
     borderRadius: 10,
     alignSelf: 'center',
   },
@@ -225,6 +223,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     flex: 1,
     height: '30%',
+    width: '90%',
     backgroundColor: COLORS.red,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,

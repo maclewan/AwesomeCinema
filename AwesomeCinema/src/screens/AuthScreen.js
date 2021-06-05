@@ -4,9 +4,11 @@ import {Text, View, StyleSheet, Image} from 'react-native';
 import AuthForm from '../components/AuthForm';
 import {Context as AuthContext} from '../context/AuthContext';
 
+import LoadingIndicator from '../components/LoadingIndicator';
+
 const AuthScreen = () => {
   const [authType, setAuthType] = useState('sign-in');
-  const {register, login} = useContext(AuthContext);
+  const {register, login, state} = useContext(AuthContext);
 
   const signIn = async (email, password) => {
     // send data to API
@@ -47,6 +49,7 @@ const AuthScreen = () => {
 
   return (
     <View style={styles.container}>
+      {state.loading && <LoadingIndicator />}
       <Image
         source={require('../../assets/photo/cinema_auth.png')}
         style={styles.image}
@@ -64,7 +67,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: '50%',
+    height: '45%',
     resizeMode: 'contain',
     alignSelf: 'center',
   },

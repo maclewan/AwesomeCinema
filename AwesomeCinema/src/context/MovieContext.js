@@ -12,6 +12,8 @@ const GET_FREE_TICKETS = 'GET FREE TICKETS';
 const GET_HALL = 'GET ONE HALL DATA';
 const CLEAR = 'CLEAR DATA';
 const ERROR = 'ERROR';
+const SCAN_TICKET = 'SET SCANNED TICKET DATA';
+const CLEAR_TICKET = 'CLEAR SCANNED TICKET DATA';
 
 // reducer obsługujący akcje związane z filmami
 const movieReducer = (state, action) => {
@@ -22,6 +24,10 @@ const movieReducer = (state, action) => {
       return {...state, screenings: action.payload.screenings};
     case GET_SCREENING:
       return {...state, currScreening: action.payload.currScreening};
+    case SCAN_TICKET:
+      return {...state, scannedTicket: action.payload.scannedTicket};
+    case CLEAR_TICKET:
+      return {...state, scannedTicket: null};
     case GET_FREE_TICKETS:
       return {...state, freeTickets: action.payload.freeTickets};
     case GET_HALL:
@@ -177,6 +183,37 @@ const buyTicket = dispatch => async ticket_id => {
     });
 };
 
+const scanTicket = dispatch => async (ticket_id, hash) => {
+  console.log('jestem tu');
+  const token = await AsyncStorage.getItem('token');
+  await fetch(`${BASE_URL}/cinema/tickets/verify/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`,
+    },
+    body: JSON.stringify({ticket_id, hash}),
+  })
+    .then(response => response.json())
+    .then(response => {
+      const scannedTicket = response.ticket;
+      const message = response.message;
+      console.log(scannedTicket);
+      console.log(message);
+      dispatch({type: SCAN_TICKET, payload: {scannedTicket}});
+    })
+    .catch(error => {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+      dispatch({type: ERROR, payload: error});
+    });
+};
+
+const clearScannedTicket = dispatch => () => {
+  dispatch({type: CLEAR_TICKET});
+};
+
 const clearData = dispatch => () => {
   dispatch({type: CLEAR});
   console.log('czyszcze');
@@ -199,6 +236,8 @@ export const {Provider, Context} = createDataContext(
     getFreeTickets,
     clearData,
     toMovieList,
+    scanTicket,
+    clearScannedTicket,
   },
   {
     movies: [],
@@ -206,5 +245,6 @@ export const {Provider, Context} = createDataContext(
     currScreening: null,
     currHall: null,
     freeTickets: [],
+    scannedTicket: null,
   },
 );
