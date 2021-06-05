@@ -11,7 +11,7 @@ const Backdrop = ({movies, scrollX}) => {
     <View style={{height: BACKDROP_HEIGHT, width, position: 'absolute'}}>
       <FlatList
         data={movies}
-        keyExtractor={item => item.key + '-backdrop'}
+        keyExtractor={item => item.id + '-backdrop'}
         removeClippedSubviews={false}
         contentContainerStyle={{width, height: BACKDROP_HEIGHT}}
         renderItem={({item, index}) => {

@@ -1,0 +1,14 @@
+{
+    "message": "Successfully verified ticket",
+    "ticket": {
+        "id": 9945,
+        "seat_number": 15,
+        "hall": "4 Oregon",
+        "movie_id": 567189,
+        "movie_name": "Tom Clancy's Without Remorse (2021-04-29)",
+        "date": "2021-05-20 11:00:00+00:00",
+        "owner_id": "2",
+        "owner_email": "piotrszym159@gmail.com",
+        "used": true
+    }
+}

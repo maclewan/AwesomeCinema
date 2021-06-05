@@ -16,13 +16,19 @@ import {
   createSwitchNavigator,
 } from '@react-navigation/native';
 
-import SplashScreen from  "react-native-splash-screen";
+import SplashScreen from 'react-native-splash-screen';
 
 import {navigationRef} from './src/helpers/navigationRef';
 import MovieListScreen from './src/screens/MovieListScreen';
 import MovieDetailsScreen from './src/screens/MovieDetailsScreen';
 import MovieDisplayDatesScreen from './src/screens/MovieDisplayDatesScreen';
 import AuthScreen from './src/screens/AuthScreen';
+import ChoosePlaceScreen from './src/screens/ChoosePlaceScreen';
+import ScanTicketScreen from './src/screens/ScanTicketScreen';
+
+import {Provider as AuthProvider} from './src/context/AuthContext';
+import {Provider as MovieProvider} from './src/context/MovieContext';
+import PaymentSuccessScreen from './src/screens/PaymentSuccessScreen';
 
 const Stack = createStackNavigator();
 
@@ -38,9 +44,7 @@ const App = () => {
   });
 
   return (
-    <Stack.Navigator
-      initialRouteName="AuthScreen"
-      innerRef={navigator => navigationRef(navigator)}>
+    <Stack.Navigator initialRouteName="Auth">
       <Stack.Screen
         name="Auth"
         component={AuthScreen}
@@ -61,6 +65,21 @@ const App = () => {
         component={MovieDisplayDatesScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="ChoosePlace"
+        component={ChoosePlaceScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PaymentSuccess"
+        component={PaymentSuccessScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ScanTicket"
+        component={ScanTicketScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
@@ -68,9 +87,13 @@ export default () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView behavior={'height'} style={{flex: 1}}>
-        <NavigationContainer>
-          <App />
-        </NavigationContainer>
+        <AuthProvider>
+          <MovieProvider>
+            <NavigationContainer ref={navigationRef}>
+              <App />
+            </NavigationContainer>
+          </MovieProvider>
+        </AuthProvider>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
