@@ -53,6 +53,7 @@ def fill_movies():
             serializer = MovieSerializer(data=m)
             serializer.is_valid()
             movie = serializer.create(validated_data=serializer.data)
+            print(movie)
             movie.save()
         # Fill genres
 
@@ -70,7 +71,8 @@ def fill_movies():
 
                 movie_gen = MovieGenre.objects.create(movie=movie, genre=genre)
         return True
-    except:
+    except Exception as e:
+        print(e)
         return False
 
 

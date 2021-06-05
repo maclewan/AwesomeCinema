@@ -16,6 +16,8 @@ urlpatterns = [
     path('hello/', movies_views.HelloView.as_view(), name='hello'),
     ##########################################################################
 
+    path('is_staff/' ,movies_views.IsAdminView.as_view(), name='is_staff'),
+
     path('movies/', movies_views.AllMoviesView.as_view(), name='multiple_movies'),
     path('movies/<int:movie_id>', movies_views.SingleMovieView.as_view(), name='single_movie'),
     path('genres/', movies_views.GenresView.as_view(), name='all_genres'),

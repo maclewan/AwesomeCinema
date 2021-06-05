@@ -22,7 +22,7 @@ def send_qr_code(t: Ticket):
 
     mail = EmailMessage(
         f'MobilkiCinema - Twój bilet na `{t.screening.movie.title}` ({t.screening.date.strftime("%d-%m-%Y, %H:%M")})',
-        'Bilet w załaczniku\n\n\n\n\nElo pozdro', MAIL_UNAME, ['maciek.lewandowicz@gmail.com', t.owner.email])
+        'Bilet w załaczniku\n\n\n\n\nElo pozdro', MAIL_UNAME, [t.owner.email])
     mail.attach('bilet.png', img.read(), mimetype="image/png")
     mail.send()
     pass

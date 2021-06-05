@@ -17,6 +17,8 @@ from cinema.config import MAIL_UNAME, MAIL_PSW
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ALLOWED_HOSTS = ['192.168.1.21', '0.0.0.0', '10.0.2.2', '192.168.43.50', '*']
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -26,7 +28,6 @@ SECRET_KEY = 'django-insecure-32s64dkfauzm=x(1nv2^kwr@1yw=b%so6+l5do$fcu@c+v*c^!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 # Application definition
 

@@ -93,4 +93,17 @@ class GenreMovieView(APIView):
         }
         return Response(payload, status=status.HTTP_200_OK)
 
+class IsAdminView(APIView):
+    permission_classes = (IsAuthenticated,)
 
+    def get(self, request: Request):
+        """
+        Checks if logged user is staff or customer
+        """
+
+        is_staff = request.user.is_staff
+
+        payload = {
+            'is_staff': is_staff
+        }
+        return Response(payload, status=status.HTTP_200_OK)

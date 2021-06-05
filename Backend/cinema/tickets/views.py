@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 
 from cinema.mailing import send_qr_code, verify_qr_code
 from cinema.tickets.models import Hall, Screening, Ticket
-from cinema.tickets.serializers import HallSerializer, ScreeningSerializer, TicketSerializer
+from cinema.tickets.serializers import HallSerializer, ScreeningSerializer, TicketSerializer, FreeTicketSerializer
 from cinema.utils import parse_raw_date, timezonize_date
 
 
@@ -72,6 +72,10 @@ class AllScreeningsView(APIView):
         screenings = screenings.filter(movie__id=movie_id) if movie_id else screenings
 
         serialized = ScreeningSerializer(screenings, many=True).data
+        print(type(serialized))
+        serialized = list(serialized)
+        serialized.sort(key=lambda x:x['date'])
+        print(type(serialized))
         payload = {
             'screenings': serialized
         }
@@ -125,7 +129,7 @@ class AvailableScreeningTicketsView(APIView):
         """
 
         tickets = Ticket.objects.filter(screening__id=screening_id, owner=None)
-        serialized = TicketSerializer(tickets, many=True).data
+        serialized = FreeTicketSerializer(tickets, many=True).data
         payload = {
             'tickets': serialized
         }
@@ -182,9 +186,8 @@ class VerifyTicketView(APIView):
 
         TicketSerializer().use(ticket)
 
-        send_qr_code(ticket)
-
         payload = {
-            'message': f'Successfully verified ticket'
+            'message': f'Successfully verified ticket',
+            'ticket': TicketSerializer(ticket).data
         }
         return Response(payload, status=status.HTTP_202_ACCEPTED)

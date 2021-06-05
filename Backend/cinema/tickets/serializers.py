@@ -46,3 +46,28 @@ class TicketSerializer(serializers.Serializer):
 
     def use(self, instance: Ticket):
         instance.used = True
+
+
+
+class FreeTicketSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    seat_number = serializers.IntegerField()
+    hall = serializers.CharField(source='screening.hall.name')
+    movie_id = serializers.IntegerField(source='screening.movie.id')
+    movie_name = serializers.CharField(source='screening.movie')
+    date = serializers.CharField(source='screening.date')
+    owner_id = None
+    owner_email = None
+    used = serializers.BooleanField()
+
+    class Meta:
+        model = Screening
+        fields = ('id', 'seat_number', 'screening', 'owner', 'used')
+
+    def update_owner(self, instance: Ticket, new_owner: User):
+        instance.owner = new_owner
+        instance.save()
+        return instance
+
+    def use(self, instance: Ticket):
+        instance.used = True
