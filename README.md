@@ -43,21 +43,26 @@ W trakcie trwania kursu zaimplementowane zostało:
 * Weryfikacja biletów za pomocą czytnika QR i komunikacji z serwerem
 
 
-Rejstracja i logowanie:
+### Rejstracja i logowanie:
 
 ![](Docs/SS/s1.png)
+
 ![](Docs/SS/s2.png)
 
-Filmy, detale, wyszukiwanie:
+### Filmy, detale, wyszukiwanie:
 
 ![](Docs/SS/s3.png)
+
 ![](Docs/SS/s4.png)
+
 ![](Docs/SS/s5.png)
 
-Seanse i rezerwacja biletów:
+### Seanse i rezerwacja biletów:
 
 ![](Docs/SS/s6.png)
+
 ![](Docs/SS/s7.png)
+
 ![](Docs/SS/s8.png)
 
 
